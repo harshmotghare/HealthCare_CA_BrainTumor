@@ -1,0 +1,51 @@
+default_language_version:
+  python: python3
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+ci:
+  autofix_prs: true
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit suggestions/fixes'
+  autoupdate_schedule: quarterly
+
+exclude: '.*\.ipynb$'
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-yaml
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-toml
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: detect-private-key
+      - id: forbid-new-submodules
+      - id: pretty-format-json
+        args: ['--autofix', '--no-sort-keys', '--indent=4']
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
+    hooks:
+    -   id: ruff-check
+        args: ["--fix"]
+
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.10.0  # Black version, keep synced with MONAI requirements
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/isort
+    rev: 9.0.2  # isort version, keep synced with MONAI requirements
+    hooks:
+      - id: isort
+        name: isort (python)
